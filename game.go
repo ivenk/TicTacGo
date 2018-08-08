@@ -20,7 +20,7 @@ type ticktacktoe struct {
 
 // allows a player to make a move by selecting a field on the board.
 func (game ticktacktoe) MakeMove(fieldNumber int) ticktacktoe {
-	// we asume the players do their moves successively
+	// we assume the players do their moves successively
 	game.field[fieldNumber] = (game.moveCounter%2) + 1
 	return game
 }
@@ -34,7 +34,8 @@ func (game ticktacktoe) MakeMove(fieldNumber int) ticktacktoe {
 func (game ticktacktoe) CheckState() int {
 	var player = 1
 
-	// check each player individually
+	// check two times
+	//once with player = 1 and once with player = 2
 	for i := 0 ; i < 2 ; i++ {
 
 		//check horizontally
@@ -56,7 +57,11 @@ func (game ticktacktoe) CheckState() int {
 		}
 
 		//check cross
-		//TODO Add cross check
+		if game.checkCrossLeftRight(player) {
+			return player
+		} else if game.checkCrossRightLeft(player) {
+			return player
+		}
 
 		player = 2
 	}
@@ -81,6 +86,18 @@ func (game ticktacktoe) checkColumn(columnStartField int, valueToCheck int) bool
 	return game.field[columnStartField] == valueToCheck &&
 			game.field[columnStartField + 3] == valueToCheck &&
 			game.field[columnStartField + 6] == valueToCheck
+}
+
+func (game ticktacktoe) checkCrossLeftRight(valueToCheck int) bool {
+	return game.field[0] == valueToCheck &&
+			game.field[4] == valueToCheck &&
+			game.field[8] == valueToCheck
+}
+
+func (game ticktacktoe) checkCrossRightLeft(valueToCheck int) bool {
+	return game.field[2] == valueToCheck &&
+		game.field[4] == valueToCheck &&
+		game.field[6] == valueToCheck
 }
 
 // checks whether a value is present in an array
