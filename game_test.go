@@ -1,7 +1,9 @@
 package main
 
-
-import "testing"
+import (
+	"testing"
+	"fmt"
+)
 
 var checkStateTests = []struct {
 	description string
@@ -16,5 +18,10 @@ var checkStateTests = []struct {
 }
 
 func TestCheckState(t *testing.T) {
-
+	for _, test := range checkStateTests {
+		actual := test.object.CheckState()
+		if fmt.Sprintf("%q", actual) != fmt.Sprintf("%q", test.expected) {
+			t.Fatalf("%q : \n CheckState(%q): expected %q, actual %q", test.description,test.object.field, test.expected, actual)
+		}
+	}
 }
