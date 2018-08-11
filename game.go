@@ -22,6 +22,7 @@ type ticktacktoe struct {
 func (game ticktacktoe) MakeMove(fieldNumber int) ticktacktoe {
 	// we assume the players do their moves successively
 	game.field[fieldNumber] = (game.moveCounter%2) + 1
+	game.moveCounter++
 	return game
 }
 
