@@ -15,3 +15,4 @@ MakeMove(id int, field int)
 
 Improvements:
 Currently a new connection is created for every single message sent. Causes a lot of delay.
+Better solution : Wait for 2 clients to be connected, then play the game using the 2 existing connections.
