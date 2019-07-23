@@ -23,7 +23,7 @@ func main() {
 	defer func() {
 		err := listener.Close()
 		if err != nil {
-			fmt.Printf("Error while closing connection on : %s:%s    : %s", PORT, HOST, err.Error())
+			fmt.Printf("Error while shutting down listener on : %s:%s    : %s", PORT, HOST, err.Error())
 			os.Exit(1)
 		}
 	}()
@@ -40,5 +40,19 @@ func main() {
 }
 
 func handleRequest(conn net.Conn) {
+	defer func() {
+		err := conn.Close()
+		if err != nil {
+			fmt.Printf("Error while closing connection on %s:%s      : %s", HOST, PORT, err.Error())
+		}
+	}()
 
+	buf := make([]byte, 1024)
+	length, err := conn.Read(buf)
+	// log but dont crash server
+	if err != nil {
+		fmt.Printf("Error receiving message on: %s:%s      : %s", HOST, PORT, err.Error())
+	}
+
+	fmt.Printf("Message received from %s : %s", conn.RemoteAddr(), buf[:length])
 }
