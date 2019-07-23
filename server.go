@@ -1,6 +1,7 @@
 package main
 
 import (
+	"./game"
 	"fmt"
 	"net"
 	"os"
@@ -13,6 +14,7 @@ const (
 )
 
 func main() {
+	//set up listener
 	listener, err := net.Listen(CONNECTION_TYPE, HOST+":"+PORT)
 	if err != nil {
 		fmt.Printf("Error while listening on port: %s and host: %s    : %s", PORT, HOST, err.Error())
@@ -28,6 +30,10 @@ func main() {
 		}
 	}()
 
+	// initialise game
+	game := game.Ticktacktoe{}
+
+	// main loop
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
@@ -35,11 +41,11 @@ func main() {
 			os.Exit(1)
 		}
 
-		go handleRequest(conn)
+		go handleRequest(conn, game)
 	}
 }
 
-func handleRequest(conn net.Conn) {
+func handleRequest(conn net.Conn, game game.Ticktacktoe) {
 	defer func() {
 		err := conn.Close()
 		if err != nil {

@@ -1,4 +1,4 @@
-package main
+package game
 
 //API
 //
@@ -6,7 +6,7 @@ package main
 // newGameState = player.makeMove(game)
 //
 
-type ticktacktoe struct {
+type Ticktacktoe struct {
 	//playing field
 	//field[x] = 0 : free; = 1: marked by player 1; =  2: marked by player 2
 	//treated like
@@ -18,7 +18,7 @@ type ticktacktoe struct {
 }
 
 // allows a player to make a move by selecting a field on the board.
-func (game ticktacktoe) MakeMove(fieldNumber int) ticktacktoe {
+func (game Ticktacktoe) MakeMove(fieldNumber int) Ticktacktoe {
 	// we assume the players do their moves successively
 	game.field[fieldNumber] = (game.moveCounter % 2) + 1
 	game.moveCounter++
@@ -31,7 +31,7 @@ func (game ticktacktoe) MakeMove(fieldNumber int) ticktacktoe {
 // 1 : player 1 won;
 // 2 : player 2 won;
 // 3 : no winner but game finished (tie)
-func (game ticktacktoe) CheckState() int {
+func (game Ticktacktoe) CheckState() int {
 	var player = 1
 
 	// check two times
@@ -76,25 +76,25 @@ func (game ticktacktoe) CheckState() int {
 }
 
 //Checks if the entire row is marked with one value
-func (game ticktacktoe) checkRow(rowStartField int, valueToCheck int) bool {
+func (game Ticktacktoe) checkRow(rowStartField int, valueToCheck int) bool {
 	return game.field[rowStartField] == valueToCheck &&
 		game.field[rowStartField+1] == valueToCheck &&
 		game.field[rowStartField+2] == valueToCheck
 }
 
-func (game ticktacktoe) checkColumn(columnStartField int, valueToCheck int) bool {
+func (game Ticktacktoe) checkColumn(columnStartField int, valueToCheck int) bool {
 	return game.field[columnStartField] == valueToCheck &&
 		game.field[columnStartField+3] == valueToCheck &&
 		game.field[columnStartField+6] == valueToCheck
 }
 
-func (game ticktacktoe) checkCrossLeftRight(valueToCheck int) bool {
+func (game Ticktacktoe) checkCrossLeftRight(valueToCheck int) bool {
 	return game.field[0] == valueToCheck &&
 		game.field[4] == valueToCheck &&
 		game.field[8] == valueToCheck
 }
 
-func (game ticktacktoe) checkCrossRightLeft(valueToCheck int) bool {
+func (game Ticktacktoe) checkCrossRightLeft(valueToCheck int) bool {
 	return game.field[2] == valueToCheck &&
 		game.field[4] == valueToCheck &&
 		game.field[6] == valueToCheck

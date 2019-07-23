@@ -11,3 +11,7 @@ API:
 Reset()
 GetState() # returns playing field and player number who has his turn
 MakeMove(id int, field int) 
+
+
+Improvements:
+Currently a new connection is created for every single message sent. Causes a lot of delay.
